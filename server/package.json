@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@fastify/cors": "^8.2.1",
+    "@fastify/static": "^6.9.0",
+    "fastify": "^4.15.0",
+    "nodemon": "^2.0.22",
+    "path": "^0.12.7",
+    "url": "^0.11.0",
+    "ws": "^8.13.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./index.mjs"
+  },
+  "author": "dragon02",
+  "license": "ISC"
+}
