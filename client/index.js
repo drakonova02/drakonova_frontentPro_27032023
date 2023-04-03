@@ -1,7 +1,6 @@
 let nameCustomer;
 
 document.querySelector('[value="connect"]').onclick = (e) => {
-    const ws               = new WebSocket('ws://localhost:5556');
     const buttonConnect    = e.target;
     const buttonSend       = document.querySelector('[value="send"]');
     const inputText        = document.querySelector('#text');
@@ -11,25 +10,29 @@ document.querySelector('[value="connect"]').onclick = (e) => {
 
     if(nameCustomer) {
         document.querySelector('.info-connect').remove();
+
         document.querySelector('label').innerText = `Message from ${nameCustomer}`;
-        buttonConnect.style.display = 'none';
-        buttonSend.style.display = 'inline';
-    }
+        buttonConnect.style.display               = 'none';
+        buttonSend.style.display                  = 'inline';
 
-    ws.onmessage = message => {
-        const messageItem = document.createElement('li');
-        messageItem.innerText = message.data;
-        document.querySelector('.message-list').append(messageItem);
-    }
+        const ws = new WebSocket('ws://localhost:5556');
+
+        ws.onmessage = message => {
+            const messageItem = document.createElement('li');
+            const time = new Date().toLocaleTimeString();
+            messageItem.innerText = `[${time}] ${message.data}`;
+            document.querySelector('.message-list').append(messageItem);
+        }
+        
+        ws.onopen = () => {
+            console.log('Connected to ws');
+            buttonSend.onclick = (e) => {
+                const message = inputText.value.trim();
     
-    ws.onopen = () => {
-        console.log('Connected to ws');
-        buttonSend.onclick = (e) => {
-            const message = inputText.value.trim();
-
-            if(message) {
-                ws.send(nameCustomer + ': ' + message);
-                inputText.value = '';
+                if(message) {
+                    ws.send(nameCustomer + ': ' + message);
+                    inputText.value = '';
+                }
             }
         }
     }
