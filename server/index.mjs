@@ -17,8 +17,7 @@ webSocketServer.on('connection', (client) => {
     client.on('message', data => {
         webSocketServer.clients.forEach(customer => {
             if(customer !== webSocketServer) {
-                const time = new Date().toLocaleTimeString('en-US');
-                customer.send(`[${time}] ${data}`);
+                customer.send(data.toString());
             }
         });
     });
